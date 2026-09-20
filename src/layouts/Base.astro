@@ -1,9 +1,9 @@
 ---
-import '@fontsource/roboto/300.css';
+// Same typefaces as the one.com site: Inter for headings, Roboto for text.
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/700.css';
 import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import '@fontsource/roboto/900.css';
 import '../styles/global.css';
 import { business } from '../data/business';
 import { u, isProduction } from '../lib/url';
@@ -42,7 +42,7 @@ const org = {
 <meta property="og:url" content={canonical}>
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_AU">
-<meta name="theme-color" content="#5F1718">
+<meta name="theme-color" content="#5f1718">
 <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml">
 <link rel="alternate" type="application/atom+xml" title="R&D Innovate — Breaking R&D News" href={business.links.blogFeed}>
 <script type="application/ld+json" set:html={JSON.stringify(org)} />
@@ -51,7 +51,7 @@ const org = {
 <a class="skip" href="#main">Skip to content</a>
 <header class="site">
   <div class="wrap">
-    <a class="brand" href={u('/')}>R&amp;D Innovate</a>
+    <a class="logo" href={u('/')}>R&amp;D Innovate</a>
     <nav aria-label="Main">
       <a href={u('/#about')}>About</a>
       <a href={u('/#contact')}>Contact</a>
@@ -63,13 +63,14 @@ const org = {
 <main id="main"><slot /></main>
 <footer class="site">
   <div class="wrap">
-    <span>&copy; {year} {business.name}{business.abn && <> &middot; ABN {business.abn}</>}</span>
+    <a class="logo" href={u('/')}>R&amp;D Innovate</a>
     <nav aria-label="Footer">
       <a href={`mailto:${business.email}`}>{business.email}</a>
       <a href={business.links.blog}>Breaking R&amp;D News</a>
       <a href={business.links.software}>Software</a>
       <a href={u('/privacy/')}>Privacy</a>
     </nav>
+    <small>&copy; {year} {business.name}{business.abn && <> &middot; ABN {business.abn}</>}</small>
   </div>
 </footer>
 </body>

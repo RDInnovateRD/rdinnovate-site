@@ -4,16 +4,19 @@ import { business } from '../data/business';
 import { u } from '../lib/url';
 ---
 <Base title="Page not found" description="That page does not exist on rdinnovate.com.">
-<section class="hero">
+<section class="title-strip">
   <div class="wrap">
-    <p class="eyebrow">404</p>
-    <h1>That page isn't here.</h1>
-    <p class="lede">The link may be from our old website. Everything now lives on one page,
-    and our research news is on the blog.</p>
-    <div class="btns">
-      <a class="btn btn-primary" href={u('/')}>Home</a>
-      <a class="btn btn-ghost" href={business.links.blog}>Breaking R&amp;D News &rarr;</a>
-    </div>
+    <h1>Page not found</h1>
+    <p class="subtitle">The link may be from our old website.</p>
+  </div>
+</section>
+<section class="block panel">
+  <div class="wrap" style="text-align:center;padding-top:30px">
+    <p>Everything now lives on one page, and our research news is on the blog.</p>
+    <p style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+      <a class="btn" href={u('/')}>Home</a>
+      <a class="btn" href={business.links.blog}>Breaking R&amp;D News</a>
+    </p>
   </div>
 </section>
 </Base>

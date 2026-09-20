@@ -1,7 +1,9 @@
 # rdinnovate.com
 
 Astro static site, built by GitHub Actions and hosted on GitHub Pages. It replaces
-the one.com Website Builder page. The copy is unchanged from the one.com site.
+the one.com Website Builder page and keeps its wording, layout, colours and fonts
+(Inter for headings, Roboto for text, maroon #5f1718), the hero chart artwork
+and the About video. The originals are kept in `../rdinnovate-site-media/`.
 
 - `src/data/business.ts` is the single source of truth: name, email, optional
   phone/ABN/location, contact-form key and links. Leave an optional field empty
