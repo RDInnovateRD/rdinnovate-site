@@ -75,6 +75,14 @@ figure.video video{display:block;width:100%;height:100%;object-fit:cover}
 /* ── software (addition) ────────────────────────────── */
 .soft{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;border-top:1px solid var(--line);padding-top:30px}
 .soft p{margin:0}
+.soft h2{margin-bottom:12px}
+.kicker{font:700 13px/1.4 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--maroon);margin:0 0 6px!important}
+.app-download{display:flex;flex-direction:column;align-items:center;gap:10px;padding:8px 18px;color:var(--maroon)}
+.app-download img{display:block;width:128px;height:128px;background:#fff;border:1px solid var(--line);
+  transition:transform .15s,border-color .15s}
+.app-download span{font:700 15px/1 var(--body)}
+.app-download:hover img{transform:translateY(-3px);border-color:var(--maroon)}
+.app-download:hover span{text-decoration:underline}
 
 /* ── contact: maroon, centred, as on one.com ────────── */
 section.contact{background:var(--maroon);color:#fff;text-align:center;padding:110px 0 60px}
@@ -113,6 +121,7 @@ footer.site small{font-size:13px;opacity:.8;width:100%}
 @media (max-width:900px){
   .about{grid-template-columns:1fr}
   .soft{grid-template-columns:1fr}
+  .app-download{justify-self:start;padding:0}
 }
 @media (max-width:700px){
   header.site .wrap{flex-direction:column;justify-content:center;gap:4px;padding-top:10px;padding-bottom:8px;min-height:0}

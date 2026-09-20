@@ -93,11 +93,16 @@ const latest = await latestArticles(3);
   <div class="wrap">
     <div class="soft">
       <div>
+        <p class="kicker">Software to prepare your R&amp;D Tax Incentive claim</p>
         <h2 id="soft-h">RnD Tax Workbench</h2>
         <p>Prepare Australian R&amp;D Tax Incentive claims on your own machine. Import your general ledger,
         payroll and timesheets, classify expenditure against Division 355, and produce a defensible schedule.</p>
       </div>
-      <a class="btn" href={business.links.software}>Download</a>
+      <a class="app-download" href={business.links.software}>
+        <img src={u('/media/rnd-tax-workbench-icon.png')} width="128" height="128"
+             alt="RnD Tax Workbench icon" loading="lazy" decoding="async">
+        <span>Download</span>
+      </a>
     </div>
   </div>
 </section>
