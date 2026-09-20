@@ -11,11 +11,11 @@ const latest = await latestArticles(3);
   <div class="wrap">
     <p class="eyebrow">{business.name}</p>
     <h1>Dare to Dream, <span class="grad">Innovate</span> and Disrupt</h1>
-    <p class="lede">At R&amp;D Innovate, we are dedicated to helping businesses maximise their innovation
+    <p class="lede">At R&amp;D Innovate, we are dedicated to helping businesses maximize their innovation
     potential through expert guidance and support.</p>
     <p>We view R&amp;D as essential for business success and partner closely with clients to navigate the
     complexities of bringing new ideas to market. Our tailored solutions are designed to meet each client's
-    unique needs and goals. We prioritise understanding your challenges to ensure your success.</p>
+    unique needs and goals. We prioritize understanding your challenges to ensure your success.</p>
     <p>Contact us today to explore how we can assist you.</p>
     <div class="btns">
       <a class="btn btn-primary" href={u('/#contact')}>Contact Us</a>
@@ -30,22 +30,37 @@ const latest = await latestArticles(3);
       <p class="eyebrow">About</p>
       <h2>Driving Innovation Through Research</h2>
       <p>R&amp;D Innovate is a trusted partner in helping clients bring their innovation visions to life.
-      We understand that the journey from a research question to a commercialised product is complex and
+      We understand that the journey from a research question to a commercialized product is complex and
       fraught with challenges. That's why we provide comprehensive support throughout the entire
-      innovation lifecycle.</p>
-      <p>If you are looking for a partner to help you bring your innovation vision to life, then
-      R&amp;D Innovate is the right choice for you. Contact us today to learn more about our services and
-      how we can help you achieve your innovation goals.</p>
+      innovation lifecycle. If you are looking for a partner to help you bring your innovation vision to
+      life, then R&amp;D Innovate is the right choice for you. Contact us today to learn more about our
+      services and how we can help you achieve your innovation goals.</p>
     </div>
-    <aside class="panel" aria-label="Our approach">
-      <h3>From question to market</h3>
-      <ol class="steps">
-        <li>A research question</li>
-        <li>Support across the innovation lifecycle</li>
-        <li>A commercialised product</li>
-      </ol>
-      <p class="fine" style="margin:6px 0 0">Tailored to each client's unique needs and goals.</p>
-    </aside>
+    <figure class="video">
+      <video id="aboutVideo" muted playsinline controls preload="metadata" controlslist="nodownload"
+             poster={u('/media/rdinnovate-video-poster.jpg')} width="960" height="540">
+        <source src={u('/media/rdinnovate-video.mp4')} type="video/mp4">
+      </video>
+    </figure>
+    <script is:inline>
+    // Plays (muted) when scrolled into view, pauses when scrolled away, as the
+    // one.com page autoplayed it. Stays still for reduced-motion or data-saver users.
+    (function () {
+      var v = document.getElementById('aboutVideo');
+      if (!v || !('IntersectionObserver' in window)) return;
+      var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var saver = navigator.connection && navigator.connection.saveData;
+      if (calm || saver) return;
+      var userPaused = false;
+      v.addEventListener('pause', function () { if (!v.dataset.auto) userPaused = true; delete v.dataset.auto; });
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting && !userPaused) { v.play().catch(function () {}); }
+          else if (!e.isIntersecting && !v.paused) { v.dataset.auto = '1'; v.pause(); }
+        });
+      }, { threshold: 0.5 }).observe(v);
+    })();
+    </script>
   </div>
 </section>
 
@@ -97,7 +112,7 @@ const latest = await latestArticles(3);
       {business.web3formsKey ? (
         <>
           <p>We are available to answer any questions and provide support. Complete the form below or
-          email us at <a class="mail" style="font-size:inherit" href={`mailto:${business.email}`}>{business.email}</a>.</p>
+          mail us at <a href={`mailto:${business.email}`} style="color:var(--maroon);font-weight:700">{business.email}</a>.</p>
           <form class="contact" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
             <input type="hidden" name="access_key" value={business.web3formsKey}>
             <input type="hidden" name="subject" value="New enquiry from rdinnovate.com">
@@ -130,7 +145,7 @@ const latest = await latestArticles(3);
         </>
       ) : (
         <>
-          <p>We are available to answer any questions and provide support. Email us and we will get back to you.</p>
+          <p>We are available to answer any questions and provide support. Mail us at:</p>
           <p><a class="mail" href={`mailto:${business.email}`}>{business.email}</a></p>
         </>
       )}
