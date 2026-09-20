@@ -1,0 +1,60 @@
+name: Deploy site
+
+# Builds rdinnovate.com and deploys it to GitHub Pages.
+# The daily run refreshes the "Latest from the desk" strip from the blog feed.
+# Cron is UTC: 21:00 UTC = 07:00 AEST / 08:00 AEDT, an hour after the blog publishes.
+#
+# Preview vs production is controlled by two repo *variables*
+# (Settings -> Secrets and variables -> Actions -> Variables):
+#   SITE_URL  = https://rdinnovaterd.github.io   SITE_BASE = /rdinnovate-site   -> preview (noindex)
+#   (both deleted)                                                              -> https://rdinnovate.com
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 21 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SITE_URL: ${{ vars.SITE_URL }}
+      SITE_BASE: ${{ vars.SITE_BASE }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Compliance check (blocks deploy on any error)
+        run: npm run check:compliance
+      - name: Launch check
+        run: npm run check:launch
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

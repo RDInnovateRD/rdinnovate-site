@@ -1,0 +1,19 @@
+{
+  "name": "rdinnovate-site",
+  "private": true,
+  "type": "module",
+  "description": "rdinnovate.com — Astro static site, deployed by GitHub Actions.",
+  "engines": { "node": ">=22.12.0" },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check:compliance": "node scripts/check-compliance.mjs",
+    "check:launch": "node scripts/check-launch.mjs",
+    "verify": "npm run build && npm run check:compliance && npm run check:launch"
+  },
+  "dependencies": {
+    "astro": "^7.3.3",
+    "@fontsource/roboto": "^5.2.0"
+  }
+}

@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import { business } from '../data/business';
+const updated = '20 September 2026';
+---
+<Base title="Privacy notice" description="How R&D Innovate collects, uses and protects personal information sent through rdinnovate.com.">
+<div class="wrap">
+<article class="prose">
+  <p class="eyebrow">Privacy</p>
+  <h1>Privacy notice</h1>
+  <p>Last updated {updated}.</p>
+  <p>This notice explains what personal information {business.name} collects through this website, why,
+  and what you can do about it. We aim to handle personal information consistently with the Australian
+  Privacy Principles in the <em>Privacy Act 1988</em> (Cth).</p>
+
+  <h2>What we collect</h2>
+  <ul>
+    <li>What you choose to send us: your name, email address and message, through the contact form
+    or by email.</li>
+    <li>Basic technical data that our hosting provider records when any website is visited, such as IP
+    address, browser type and the page requested. We do not use this to identify you.</li>
+  </ul>
+  <p>This site sets no cookies of its own, runs no analytics and loads no advertising. Its fonts are
+  served from this site, not from a third party.</p>
+
+  <h2>Why we collect it</h2>
+  <p>To reply to your enquiry and, if you become a client, to provide our services. We do not add you to
+  a mailing list, and we do not sell or rent personal information.</p>
+
+  <h2>Who else handles it</h2>
+  <ul>
+    <li><strong>Web3Forms</strong> relays contact-form messages to our inbox.</li>
+    <li><strong>GitHub Pages</strong> hosts this website.</li>
+    <li>Our email provider stores the messages we receive.</li>
+  </ul>
+  <p>These providers may store data outside Australia. We use them only for the purposes above.</p>
+
+  <h2>How long we keep it</h2>
+  <p>Enquiries are kept for as long as needed to respond and for our ordinary business records, then
+  deleted.</p>
+
+  <h2>Access, correction and complaints</h2>
+  <p>You can ask to see or correct the personal information we hold about you, or ask us to delete it,
+  by emailing <a href={`mailto:${business.email}`}>{business.email}</a>. We will respond within 30 days.
+  If you are not satisfied with our response, you can contact the Office of the Australian Information
+  Commissioner at <a href="https://www.oaic.gov.au">oaic.gov.au</a>.</p>
+
+  <h2>Other sites</h2>
+  <p>Links to <a href={business.links.blog}>blog.rdinnovate.com</a>, GitHub (software downloads) and
+  published research lead to sites with their own privacy practices.</p>
+</article>
+</div>
+</Base>

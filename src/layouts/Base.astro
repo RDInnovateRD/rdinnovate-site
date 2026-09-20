@@ -1,0 +1,76 @@
+---
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import '@fontsource/roboto/900.css';
+import '../styles/global.css';
+import { business } from '../data/business';
+import { u, isProduction } from '../lib/url';
+
+interface Props { title?: string; description?: string }
+const { title, description = business.description } = Astro.props;
+const fullTitle = title ? `${title} | ${business.name}` : `${business.name} | ${business.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const year = new Date().getFullYear();
+
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: business.name,
+  url: Astro.site?.href,
+  email: business.email,
+  slogan: business.tagline,
+  description: business.description,
+  ...(business.phone ? { telephone: business.phone } : {}),
+  ...(business.location ? { areaServed: business.location } : {}),
+  sameAs: [business.links.blog],
+};
+---
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{fullTitle}</title>
+<meta name="description" content={description}>
+{!isProduction && <meta name="robots" content="noindex, nofollow">}
+<link rel="canonical" href={canonical}>
+<meta property="og:site_name" content={business.name}>
+<meta property="og:title" content={title ?? business.name}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={canonical}>
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_AU">
+<meta name="theme-color" content="#5F1718">
+<link rel="icon" href={u('/favicon.svg')} type="image/svg+xml">
+<link rel="alternate" type="application/atom+xml" title="R&D Innovate — Breaking R&D News" href={business.links.blogFeed}>
+<script type="application/ld+json" set:html={JSON.stringify(org)} />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href={u('/')}>R&amp;D Innovate</a>
+    <nav aria-label="Main">
+      <a href={u('/#about')}>About</a>
+      <a href={u('/#contact')}>Contact</a>
+      <a href={business.links.blog}>Breaking R&amp;D News</a>
+      <a href={business.links.software}>Software</a>
+    </nav>
+  </div>
+</header>
+<main id="main"><slot /></main>
+<footer class="site">
+  <div class="wrap">
+    <span>&copy; {year} {business.name}{business.abn && <> &middot; ABN {business.abn}</>}</span>
+    <nav aria-label="Footer">
+      <a href={`mailto:${business.email}`}>{business.email}</a>
+      <a href={business.links.blog}>Breaking R&amp;D News</a>
+      <a href={business.links.software}>Software</a>
+      <a href={u('/privacy/')}>Privacy</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,147 @@
+---
+import Base from '../layouts/Base.astro';
+import { business } from '../data/business';
+import { latestArticles, displayDate } from '../lib/latest';
+import { u } from '../lib/url';
+
+const latest = await latestArticles(3);
+---
+<Base>
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">{business.name}</p>
+    <h1>Dare to Dream, <span class="grad">Innovate</span> and Disrupt</h1>
+    <p class="lede">At R&amp;D Innovate, we are dedicated to helping businesses maximise their innovation
+    potential through expert guidance and support.</p>
+    <p>We view R&amp;D as essential for business success and partner closely with clients to navigate the
+    complexities of bringing new ideas to market. Our tailored solutions are designed to meet each client's
+    unique needs and goals. We prioritise understanding your challenges to ensure your success.</p>
+    <p>Contact us today to explore how we can assist you.</p>
+    <div class="btns">
+      <a class="btn btn-primary" href={u('/#contact')}>Contact Us</a>
+      <a class="btn btn-ghost" href={business.links.blog}>Breaking R&amp;D News &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<section class="block alt" id="about">
+  <div class="wrap cols">
+    <div>
+      <p class="eyebrow">About</p>
+      <h2>Driving Innovation Through Research</h2>
+      <p>R&amp;D Innovate is a trusted partner in helping clients bring their innovation visions to life.
+      We understand that the journey from a research question to a commercialised product is complex and
+      fraught with challenges. That's why we provide comprehensive support throughout the entire
+      innovation lifecycle.</p>
+      <p>If you are looking for a partner to help you bring your innovation vision to life, then
+      R&amp;D Innovate is the right choice for you. Contact us today to learn more about our services and
+      how we can help you achieve your innovation goals.</p>
+    </div>
+    <aside class="panel" aria-label="Our approach">
+      <h3>From question to market</h3>
+      <ol class="steps">
+        <li>A research question</li>
+        <li>Support across the innovation lifecycle</li>
+        <li>A commercialised product</li>
+      </ol>
+      <p class="fine" style="margin:6px 0 0">Tailored to each client's unique needs and goals.</p>
+    </aside>
+  </div>
+</section>
+
+{latest.length > 0 && (
+  <section class="block" aria-labelledby="latest-h">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow">Breaking R&amp;D News</p>
+          <h2 id="latest-h">Latest from the desk</h2>
+        </div>
+        <a class="more-link" href={business.links.blog}>All articles &rarr;</a>
+      </div>
+      <div class="cards">
+        {latest.map((a) => (
+          <a class="card" href={a.url}>
+            <div class="banner">{a.category && <span class="cat">{a.category}</span>}</div>
+            <div class="body">
+              {a.date && <time datetime={a.date}>{displayDate(a.date)}</time>}
+              <h3>{a.title}</h3>
+              {a.summary && <p>{a.summary}</p>}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<section class="block" aria-labelledby="soft-h">
+  <div class="wrap">
+    <div class="soft">
+      <div>
+        <p class="eyebrow">Software</p>
+        <h2 id="soft-h">RnD Tax Workbench</h2>
+        <p>Prepare Australian R&amp;D Tax Incentive claims on your own machine. Import your general ledger,
+        payroll and timesheets, classify expenditure against Division 355, and produce a defensible schedule.</p>
+      </div>
+      <a class="btn" href={business.links.software}>Download &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<section class="block alt" id="contact">
+  <div class="wrap cols">
+    <div>
+      <p class="eyebrow">Contact</p>
+      <h2>Contact Us for Assistance</h2>
+      {business.web3formsKey ? (
+        <>
+          <p>We are available to answer any questions and provide support. Complete the form below or
+          email us at <a class="mail" style="font-size:inherit" href={`mailto:${business.email}`}>{business.email}</a>.</p>
+          <form class="contact" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value={business.web3formsKey}>
+            <input type="hidden" name="subject" value="New enquiry from rdinnovate.com">
+            <input type="hidden" name="from_name" value="rdinnovate.com">
+            <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <label>Name *<input name="name" required autocomplete="name"></label>
+            <label>Email *<input name="email" type="email" required autocomplete="email"></label>
+            <label>Message *<textarea name="message" required></textarea></label>
+            <p class="fine">We use these details only to reply to you. See our <a href={u('/privacy/')}>privacy notice</a>.</p>
+            <div><button class="btn btn-primary" type="submit" style="border:0;cursor:pointer;font:inherit;font-weight:700">Send message</button></div>
+            <p class="status" id="formStatus" role="status" aria-live="polite"></p>
+          </form>
+          <script is:inline>
+          (function () {
+            var f = document.getElementById('contactForm'), s = document.getElementById('formStatus');
+            if (!f || !window.fetch) return;
+            f.addEventListener('submit', function (e) {
+              e.preventDefault();
+              s.textContent = 'Sending...';
+              fetch(f.action, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(f) })
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                  if (d.success) { f.reset(); s.textContent = 'Thank you. Your message has been sent.'; }
+                  else { s.textContent = 'That did not send. Please email us directly.'; }
+                })
+                .catch(function () { s.textContent = 'That did not send. Please email us directly.'; });
+            });
+          })();
+          </script>
+        </>
+      ) : (
+        <>
+          <p>We are available to answer any questions and provide support. Email us and we will get back to you.</p>
+          <p><a class="mail" href={`mailto:${business.email}`}>{business.email}</a></p>
+        </>
+      )}
+    </div>
+    <aside class="panel" aria-label="Contact details">
+      <h3>Get in touch</h3>
+      <p style="margin:0 0 10px"><strong>Email</strong><br><a href={`mailto:${business.email}`} style="color:var(--maroon)">{business.email}</a></p>
+      {business.phone && <p style="margin:0 0 10px"><strong>Phone</strong><br><a href={`tel:${business.phone.replace(/\s/g, '')}`}>{business.phone}</a></p>}
+      {business.location && <p style="margin:0 0 10px"><strong>Location</strong><br>{business.location}</p>}
+      <p style="margin:0"><strong>Research news</strong><br><a href={business.links.blog} style="color:var(--maroon)">blog.rdinnovate.com</a></p>
+    </aside>
+  </div>
+</section>
+</Base>
