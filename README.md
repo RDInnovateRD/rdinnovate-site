@@ -13,7 +13,7 @@ and the About video. The originals are kept in `../rdinnovate-site-media/`.
   `tpbRegistered` is false, or shows placeholder or template text.
 - `scripts/check-launch.mjs` sorts problems into blockers and nice-to-haves.
 - "Latest from the desk" is read from the blog's feed at build time. A daily
-  rebuild (21:00 UTC) keeps it current. If the feed can't be reached, the section
+  rebuild (18:00 UTC, early morning in Sydney) keeps it current. If the feed can't be reached, the section
   is left out and the build still succeeds.
 
 ## Preview and production
