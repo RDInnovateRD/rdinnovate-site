@@ -26,6 +26,7 @@ export const business = {
     blog: 'https://blog.rdinnovate.com',
     blogFeed: 'https://blog.rdinnovate.com/feed.xml',
     software: 'https://blog.rdinnovate.com/workbench/',
+    linkedin: 'https://www.linkedin.com/company/rdinnovate/',
   },
 };
 
