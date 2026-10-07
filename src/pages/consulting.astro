@@ -1,0 +1,160 @@
+---
+// Consulting: About, Services & Projects, Contact. This was the one-page home
+// (moved here in Oct 2026 when the home page became the RnD Tax Workbench
+// launch). Old /#about and /#contact links are forwarded here by the home page.
+import Base from '../layouts/Base.astro';
+import { business } from '../data/business';
+import { u } from '../lib/url';
+
+const services = [
+  { h: 'Eligibility review',
+    p: 'We look at your projects against the core and supporting R&D activity tests in Division 355 and tell you plainly what is likely to qualify, and why.' },
+  { h: 'Registration support',
+    p: 'Activity descriptions, hypotheses and experiment records written up for registration with the Department of Industry, Science and Resources (AusIndustry).' },
+  { h: 'Records that hold up',
+    p: 'Contemporaneous documentation, timesheet and cost-tracking set-ups that make next year easier and stand up if a review comes.' },
+  { h: 'Review readiness',
+    p: 'Help gathering evidence and preparing explanations when AusIndustry or the ATO asks questions about a claim.' },
+];
+const projects = [
+  { h: 'RnD Tax Workbench', tag: 'Software',
+    p: 'Desktop software that prepares Australian R&D Tax Incentive claims on your own machine, from ledgers and payroll to a Division 355 schedule.',
+    href: u('/'), cta: 'See the software' },
+  { h: 'Breaking R&D News', tag: 'Research desk',
+    p: 'A daily article on new research in materials, computing, energy, quantum and biology, with what it means for R&D teams.',
+    href: business.links.blog, cta: 'Read the latest' },
+];
+---
+<Base title="Consulting"
+      description="R&D Innovate consulting: R&D Tax Incentive eligibility reviews, registration support, record keeping and review readiness for innovative businesses.">
+<section class="title-strip">
+  <div class="wrap">
+    <h1>R&amp;D Innovate</h1>
+    <p class="subtitle">Dare to Dream, Innovate and Disrupt</p>
+  </div>
+</section>
+
+<section class="hero" style={`background-image:url('${u('/media/hero-background.jpg')}')`}>
+  <div class="hero-box">
+    <p>At R&amp;D Innovate, we are dedicated to helping businesses maximize their innovation potential through
+    expert guidance and support.</p>
+    <p>We view R&amp;D as essential for business success and partner closely with clients to navigate the
+    complexities of bringing new ideas to market. Our tailored solutions are designed to meet each client's
+    unique needs and goals. We prioritize understanding your challenges to ensure your success.</p>
+    <p>Contact us today to explore how we can assist you.</p>
+  </div>
+  <div class="btn-row"><a class="btn" href="#contact">Contact Us</a></div>
+</section>
+
+<section class="block panel" id="about">
+  <div class="wrap about">
+    <div>
+      <h2>Driving Innovation Through Research</h2>
+      <p>R&amp;D Innovate is a trusted partner in helping clients bring their innovation visions to life. We
+      understand that the journey from a research question to a commercialized product is complex and fraught
+      with challenges. That's why we provide comprehensive support throughout the entire innovation lifecycle.
+      If you are looking for a partner to help you bring your innovation vision to life, then R&amp;D Innovate
+      is the right choice for you. Contact us today to learn more about our services and how we can help you
+      achieve your innovation goals.</p>
+    </div>
+    <figure class="video">
+      <video id="aboutVideo" muted playsinline controls preload="metadata" controlslist="nodownload"
+             poster={u('/media/rdinnovate-video-poster.jpg')} width="960" height="540">
+        <source src={u('/media/rdinnovate-video.mp4')} type="video/mp4">
+      </video>
+    </figure>
+  </div>
+  <script is:inline>
+  // Plays (muted) when scrolled into view and pauses when scrolled away, like the
+  // one.com autoplay. Stays still for reduced-motion or data-saver visitors.
+  (function () {
+    var v = document.getElementById('aboutVideo');
+    if (!v || !('IntersectionObserver' in window)) return;
+    var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var saver = navigator.connection && navigator.connection.saveData;
+    if (calm || saver) return;
+    var userPaused = false;
+    v.addEventListener('pause', function () { if (!v.dataset.auto) userPaused = true; delete v.dataset.auto; });
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting && !userPaused) { v.play().catch(function () {}); }
+        else if (!e.isIntersecting && !v.paused) { v.dataset.auto = '1'; v.pause(); }
+      });
+    }, { threshold: 0.5 }).observe(v);
+  })();
+  </script>
+</section>
+
+<section class="block" id="services" aria-labelledby="services-h">
+  <div class="wrap">
+    <h2 id="services-h">Services &amp; Projects</h2>
+    <p class="kicker">Services</p>
+    <div class="svc-grid">
+      {services.map((s) => (
+        <div class="svc"><h3>{s.h}</h3><p>{s.p}</p></div>
+      ))}
+    </div>
+    <p class="svc-note">We work alongside your tax adviser, who lodges the claim with your company tax return.</p>
+    <p class="kicker" id="projects">Projects</p>
+    <div class="proj-grid">
+      {projects.map((p) => (
+        <a class="proj" href={p.href}>
+          <span class="proj-tag">{p.tag}</span>
+          <h3>{p.h}</h3>
+          <p>{p.p}</p>
+          <span class="proj-cta">{p.cta} &rarr;</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2>Contact Us for Assistance</h2>
+    {business.web3formsKey ? (
+      <>
+        <p>We are available to answer any questions and provide support. Complete the form below or mail us at</p>
+        <p><a class="mail" href={`mailto:${business.email}`}>{business.email}</a></p>
+        <form class="contact" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value={business.web3formsKey}>
+          <input type="hidden" name="subject" value="New enquiry from rdinnovate.com">
+          <input type="hidden" name="from_name" value="rdinnovate.com">
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="row">
+            <label>Name *<input name="name" required autocomplete="name"></label>
+            <label>Email *<input name="email" type="email" required autocomplete="email"></label>
+          </div>
+          <label>Message *<textarea name="message" required></textarea></label>
+          <p class="fine">We use these details only to reply to you. See our <a href={u('/privacy/')}>privacy notice</a>.</p>
+          <div class="actions"><button class="btn btn-light" type="submit">Send</button></div>
+          <p class="status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+        <script is:inline>
+        (function () {
+          var f = document.getElementById('contactForm'), s = document.getElementById('formStatus');
+          if (!f || !window.fetch) return;
+          f.addEventListener('submit', function (e) {
+            e.preventDefault();
+            s.textContent = 'Sending...';
+            fetch(f.action, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(f) })
+              .then(function (r) { return r.json(); })
+              .then(function (d) {
+                if (d.success) { f.reset(); s.textContent = 'Thank you. Your message has been sent.'; }
+                else { s.textContent = 'That did not send. Please email us directly.'; }
+              })
+              .catch(function () { s.textContent = 'That did not send. Please email us directly.'; });
+          });
+        })();
+        </script>
+      </>
+    ) : (
+      <>
+        <p>We are available to answer any questions and provide support. Mail us at</p>
+        <p><a class="mail" href={`mailto:${business.email}`}>{business.email}</a></p>
+        {business.phone && <p><a href={`tel:${business.phone.replace(/\s/g, '')}`}>{business.phone}</a></p>}
+      </>
+    )}
+  </div>
+</section>
+</Base>

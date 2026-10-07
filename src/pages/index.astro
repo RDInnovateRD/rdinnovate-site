@@ -1,74 +1,190 @@
 ---
-// Home page. Layout, copy and assets follow the one.com page it replaces:
-// title strip, chart-artwork hero with a translucent panel, About with the
-// video, and a maroon contact section. "Latest from the desk" and the
-// Software strip are additions.
+// Home page: the RnD Tax Workbench launch. Consulting (About, Services &
+// Projects, Contact) lives on /consulting/. Copy for the five reasons matches
+// the walkthrough video's "Why RnD Tax Workbench?" card.
 import Base from '../layouts/Base.astro';
+import '../styles/launch.css';
 import { business } from '../data/business';
 import { latestArticles, displayDate } from '../lib/latest';
 import { u } from '../lib/url';
 
 const latest = await latestArticles(3);
+const dl = business.links.software;
+const film = `${business.links.blog}/media/workbench-demo.mp4`;
+const filmPoster = u('/media/home/film-poster.jpg');
+const filmCaptions = `${business.links.blog}/media/workbench-demo.en.vtt`;
+
+const steps = [
+  { img: 'classify', n: '01', h: 'Bring in the numbers.',
+    p: 'General ledger, profit and loss, balance sheet, trial balance, payroll and timesheets, including PDFs.' },
+  { img: 'apportion', n: '02', h: 'Classify and apportion.',
+    p: 'Expenditure sorted across 19 categories, with R&D percentages apportioned by timesheet, floor space, FTE ratio or asset usage.' },
+  { img: 'ledger', n: '03', h: 'Apply Division 355.',
+    p: 'Feedstock adjustments, associate payment timing, grants, overseas work and s 355-225 exclusions, worked through line by line.' },
+  { img: 'summary', n: '04', h: 'Produce the schedule.',
+    p: 'A working-paper schedule with the reasoning recorded, plus a compliance check before you hand it over.' },
+];
+const plans = [
+  { name: 'Starter', price: 29, credits: '500' },
+  { name: 'Standard', price: 49, credits: '1,000' },
+  { name: 'Pro', price: 99, credits: '2,500' },
+];
 ---
-<Base>
-<section class="title-strip">
-  <div class="wrap">
-    <h1>R&amp;D Innovate</h1>
-    <p class="subtitle">Dare to Dream, Innovate and Disrupt</p>
-  </div>
-</section>
+<Base theme="dark"
+      title="RnD Tax Workbench — R&D Tax Incentive claim software"
+      description="RnD Tax Workbench prepares Australian R&D Tax Incentive claims on your own machine. Import ledgers, payroll and timesheets, apply Division 355 and produce a schedule. Pay as you go.">
+<script is:inline>
+  // Old one-page links (/#about, /#contact) now live on the Consulting page.
+  document.documentElement.classList.add('js');
+  (function () {
+    var h = location.hash;
+    if (h === '#about' || h === '#contact' || h === '#services' || h === '#projects') {
+      location.replace(document.documentElement.dataset.consulting + h);
+    }
+  })();
+</script>
 
-<section class="hero" style={`background-image:url('${u('/media/hero-background.jpg')}')`}>
-  <div class="hero-box">
-    <p>At R&amp;D Innovate, we are dedicated to helping businesses maximize their innovation potential through
-    expert guidance and support.</p>
-    <p>We view R&amp;D as essential for business success and partner closely with clients to navigate the
-    complexities of bringing new ideas to market. Our tailored solutions are designed to meet each client's
-    unique needs and goals. We prioritize understanding your challenges to ensure your success.</p>
-    <p>Contact us today to explore how we can assist you.</p>
-  </div>
-  <div class="btn-row"><a class="btn" href={u('/#contact')}>Contact Us</a></div>
-</section>
-
-<section class="block panel" id="about">
-  <div class="wrap about">
-    <div>
-      <h2>Driving Innovation Through Research</h2>
-      <p>R&amp;D Innovate is a trusted partner in helping clients bring their innovation visions to life. We
-      understand that the journey from a research question to a commercialized product is complex and fraught
-      with challenges. That's why we provide comprehensive support throughout the entire innovation lifecycle.
-      If you are looking for a partner to help you bring your innovation vision to life, then R&amp;D Innovate
-      is the right choice for you. Contact us today to learn more about our services and how we can help you
-      achieve your innovation goals.</p>
+<!-- ── 1. Hero ─────────────────────────────────────────────── -->
+<section class="l-hero" id="top">
+  <div class="l-hero-copy">
+    <p class="l-eyebrow reveal-load">New from R&amp;D Innovate</p>
+    <h1 class="l-title reveal-load">RnD Tax Workbench</h1>
+    <p class="l-tag reveal-load">The R&amp;D Tax Incentive claim, reimagined.</p>
+    <div class="l-cta reveal-load">
+      <a class="pill" href={dl}>Download</a>
+      <a class="pill pill-ghost" href="#film">Watch the film <span aria-hidden="true">&#9654;</span></a>
     </div>
-    <figure class="video">
-      <video id="aboutVideo" muted playsinline controls preload="metadata" controlslist="nodownload"
-             poster={u('/media/rdinnovate-video-poster.jpg')} width="960" height="540">
-        <source src={u('/media/rdinnovate-video.mp4')} type="video/mp4">
-      </video>
+    <p class="l-avail reveal-load">For macOS and Windows. Pay as you go from A$29.</p>
+  </div>
+  <div class="l-stage" aria-hidden="false">
+    <div class="l-glow" aria-hidden="true"></div>
+    <figure class="mac" id="heroMac">
+      <div class="mac-lid">
+        <div class="mac-screen">
+          <img src={u('/media/home/schedule.jpg')} width="1920" height="1080"
+               alt="RnD Tax Workbench showing the R&D expenditure schedule for a sample claim, with a total notional R&D deduction"
+               fetchpriority="high" decoding="async">
+        </div>
+      </div>
+      <div class="mac-base" aria-hidden="true"><span></span></div>
     </figure>
   </div>
-  <script is:inline>
-  // Plays (muted) when scrolled into view and pauses when scrolled away, like the
-  // one.com autoplay. Stays still for reduced-motion or data-saver visitors.
-  (function () {
-    var v = document.getElementById('aboutVideo');
-    if (!v || !('IntersectionObserver' in window)) return;
-    var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var saver = navigator.connection && navigator.connection.saveData;
-    if (calm || saver) return;
-    var userPaused = false;
-    v.addEventListener('pause', function () { if (!v.dataset.auto) userPaused = true; delete v.dataset.auto; });
-    new IntersectionObserver(function (es) {
-      es.forEach(function (e) {
-        if (e.isIntersecting && !userPaused) { v.play().catch(function () {}); }
-        else if (!e.isIntersecting && !v.paused) { v.dataset.auto = '1'; v.pause(); }
-      });
-    }, { threshold: 0.5 }).observe(v);
-  })();
-  </script>
 </section>
 
+<!-- ── 2. Five reasons ─────────────────────────────────────── -->
+<section class="l-why" aria-labelledby="why-h">
+  <div class="l-wrap">
+    <h2 id="why-h" class="l-h2 reveal">Why RnD Tax Workbench?</h2>
+    <div class="bento">
+      <article class="tile t-fast reveal">
+        <span class="t-n">01</span>
+        <h3>Fast.</h3>
+        <p>Ledgers, payroll and timesheets to a finished claim schedule, without weeks of back-and-forth.</p>
+      </article>
+      <article class="tile t-pay reveal">
+        <span class="t-n">02</span>
+        <h3>Pay as you go.</h3>
+        <p class="t-big"><span class="grad">A$29</span></p>
+        <p>Credits, not thousands of dollars taken as a percentage of your refund.</p>
+      </article>
+      <article class="tile t-review reveal">
+        <span class="t-n">03</span>
+        <h3>Built to stand up to review.</h3>
+        <p>Division 355 rules in every calculation, from feedstock and grants to associates and overseas work.</p>
+      </article>
+      <article class="tile t-data reveal">
+        <span class="t-n">04</span>
+        <h3>Your data stays yours.</h3>
+        <p>Claim data on your own computer, with AI processing in Australia.</p>
+      </article>
+      <article class="tile t-acct reveal">
+        <span class="t-n">05</span>
+        <h3>Made for accountants too.</h3>
+        <p>One tool for every client claim, year after year.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── 3. How it works ─────────────────────────────────────── -->
+<section class="l-steps" aria-labelledby="steps-h">
+  <div class="l-wrap">
+    <h2 id="steps-h" class="l-h2 reveal">From ledger to schedule.</h2>
+    <p class="l-lede reveal">Four steps, on your own machine.</p>
+  </div>
+  <div class="rail" tabindex="0" aria-label="How it works, four steps">
+    {steps.map((s) => (
+      <figure class="step reveal">
+        <div class="step-shot">
+          <img src={u(`/media/home/${s.img}.jpg`)} width="1920" height="1080" loading="lazy" decoding="async"
+               alt={`RnD Tax Workbench: ${s.h.replace('.', '')}`}>
+        </div>
+        <figcaption><span class="step-n">{s.n}</span><strong>{s.h}</strong> {s.p}</figcaption>
+      </figure>
+    ))}
+  </div>
+  <div class="rail-nav l-wrap">
+    <button type="button" class="rail-btn" data-dir="-1" aria-label="Previous step">&lsaquo;</button>
+    <button type="button" class="rail-btn" data-dir="1" aria-label="Next step">&rsaquo;</button>
+  </div>
+</section>
+
+<!-- ── 4. Pricing ──────────────────────────────────────────── -->
+<section class="l-price" aria-labelledby="price-h">
+  <div class="l-wrap">
+    <h2 id="price-h" class="l-h2 reveal">Pricing that doesn&rsquo;t take a cut.</h2>
+    <p class="l-lede reveal">Buy credits when you need them. No subscription, and no percentage of your refund.</p>
+    <div class="plans">
+      {plans.map((p) => (
+        <div class="plan reveal">
+          <span class="plan-name">{p.name}</span>
+          <span class="plan-price"><small>A$</small>{p.price}</span>
+          <span class="plan-credits">{p.credits} credits</span>
+        </div>
+      ))}
+    </div>
+    <p class="l-note reveal">Prices in Australian dollars. Credits are used by the AI-assisted steps, such as classification and narratives.</p>
+  </div>
+</section>
+
+<!-- ── 5. The film ─────────────────────────────────────────── -->
+<section class="l-film" id="film" aria-labelledby="film-h">
+  <div class="l-wrap">
+    <h2 id="film-h" class="l-h2 reveal">See it in action.</h2>
+    <p class="l-lede reveal">A full claim for a fictional company, from sign-up to the final schedule. About ten minutes.</p>
+    <div class="film reveal">
+      <video controls preload="none" playsinline crossorigin="anonymous" poster={filmPoster} width="1920" height="1080">
+        <source src={film} type="video/mp4">
+        <track kind="captions" src={filmCaptions} srclang="en" label="English">
+        <a href={film}>Watch the walkthrough video</a>
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- ── 6. Get it ───────────────────────────────────────────── -->
+<section class="l-get" aria-labelledby="get-h">
+  <div class="l-wrap">
+    <img class="l-icon reveal" src={u('/media/rnd-tax-workbench-icon.png')} width="128" height="128" alt="" loading="lazy">
+    <h2 id="get-h" class="l-h2 reveal">Get RnD Tax Workbench.</h2>
+    <p class="l-lede reveal">macOS (Apple silicon and Intel) and Windows 10 and 11.</p>
+    <div class="l-cta reveal"><a class="pill" href={dl}>Download</a></div>
+  </div>
+</section>
+
+<!-- ── 7. Consulting ───────────────────────────────────────── -->
+<section class="l-consult" aria-labelledby="consult-h">
+  <div class="l-wrap l-consult-in">
+    <div>
+      <p class="l-eyebrow">R&amp;D Innovate Consulting</p>
+      <h2 id="consult-h">Rather have a hand with it?</h2>
+      <p>We work with innovative businesses from research question to commercialised product.</p>
+    </div>
+    <a class="pill pill-light" href={u('/consulting/')}>Talk to us <span aria-hidden="true">&rsaquo;</span></a>
+  </div>
+</section>
+
+<!-- ── 8. News ─────────────────────────────────────────────── -->
 {latest.length > 0 && (
   <section class="block" aria-labelledby="latest-h">
     <div class="wrap">
@@ -89,70 +205,41 @@ const latest = await latestArticles(3);
   </section>
 )}
 
-<section class="block" aria-labelledby="soft-h">
-  <div class="wrap">
-    <div class="soft">
-      <div>
-        <p class="kicker">Software to prepare your R&amp;D Tax Incentive claim</p>
-        <h2 id="soft-h">RnD Tax Workbench</h2>
-        <p>Prepare Australian R&amp;D Tax Incentive claims on your own machine. Import your general ledger,
-        payroll and timesheets, classify expenditure against Division 355, and produce a defensible schedule.</p>
-      </div>
-      <a class="app-download" href={business.links.software}>
-        <img src={u('/media/rnd-tax-workbench-icon.png')} width="128" height="128"
-             alt="RnD Tax Workbench icon" loading="lazy" decoding="async">
-        <span>Download</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="contact" id="contact">
-  <div class="wrap">
-    <h2>Contact Us for Assistance</h2>
-    {business.web3formsKey ? (
-      <>
-        <p>We are available to answer any questions and provide support. Complete the form below or mail us at</p>
-        <p><a class="mail" href={`mailto:${business.email}`}>{business.email}</a></p>
-        <form class="contact" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
-          <input type="hidden" name="access_key" value={business.web3formsKey}>
-          <input type="hidden" name="subject" value="New enquiry from rdinnovate.com">
-          <input type="hidden" name="from_name" value="rdinnovate.com">
-          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <div class="row">
-            <label>Name *<input name="name" required autocomplete="name"></label>
-            <label>Email *<input name="email" type="email" required autocomplete="email"></label>
-          </div>
-          <label>Message *<textarea name="message" required></textarea></label>
-          <p class="fine">We use these details only to reply to you. See our <a href={u('/privacy/')}>privacy notice</a>.</p>
-          <div class="actions"><button class="btn btn-light" type="submit">Send</button></div>
-          <p class="status" id="formStatus" role="status" aria-live="polite"></p>
-        </form>
-        <script is:inline>
-        (function () {
-          var f = document.getElementById('contactForm'), s = document.getElementById('formStatus');
-          if (!f || !window.fetch) return;
-          f.addEventListener('submit', function (e) {
-            e.preventDefault();
-            s.textContent = 'Sending...';
-            fetch(f.action, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(f) })
-              .then(function (r) { return r.json(); })
-              .then(function (d) {
-                if (d.success) { f.reset(); s.textContent = 'Thank you. Your message has been sent.'; }
-                else { s.textContent = 'That did not send. Please email us directly.'; }
-              })
-              .catch(function () { s.textContent = 'That did not send. Please email us directly.'; });
-          });
-        })();
-        </script>
-      </>
-    ) : (
-      <>
-        <p>We are available to answer any questions and provide support. Mail us at</p>
-        <p><a class="mail" href={`mailto:${business.email}`}>{business.email}</a></p>
-        {business.phone && <p><a href={`tel:${business.phone.replace(/\s/g, '')}`}>{business.phone}</a></p>}
-      </>
-    )}
-  </div>
-</section>
+<script is:inline>
+(function () {
+  var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
+  // Reveal sections as they come into view.
+  var els = document.querySelectorAll('.reveal');
+  if (calm || !('IntersectionObserver' in window)) {
+    els.forEach(function (e) { e.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (e) { io.observe(e); });
+  }
+  // Gallery arrows.
+  var rail = document.querySelector('.rail');
+  document.querySelectorAll('.rail-btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var step = rail.querySelector('.step');
+      rail.scrollBy({ left: (+b.dataset.dir) * (step ? step.offsetWidth + 26 : 600), behavior: calm ? 'auto' : 'smooth' });
+    });
+  });
+  // Laptop opens up as the page scrolls (Apple-style).
+  var mac = document.getElementById('heroMac');
+  if (!mac || calm) { if (mac) mac.style.setProperty('--p', 1); return; }
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var r = mac.getBoundingClientRect(), vh = window.innerHeight;
+    var p = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.9)));
+    mac.style.setProperty('--p', p.toFixed(3));
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
 </Base>

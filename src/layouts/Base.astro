@@ -1,6 +1,8 @@
 ---
 // Same typefaces as the one.com site: Inter for headings, Roboto for text.
+// theme="dark": black header for the RnD Tax Workbench launch page (home).
 import '@fontsource/inter/400.css';
+import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/700.css';
@@ -8,11 +10,15 @@ import '../styles/global.css';
 import { business } from '../data/business';
 import { u, isProduction } from '../lib/url';
 
-interface Props { title?: string; description?: string }
-const { title, description = business.description } = Astro.props;
+interface Props { title?: string; description?: string; theme?: 'dark' | 'light'; image?: string }
+const { title, description = business.description, theme = 'light', image = '/media/home/og.jpg' } = Astro.props;
 const fullTitle = title ? `${title} | ${business.name}` : `${business.name} | ${business.tagline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(u(image), Astro.site).href;
 const year = new Date().getFullYear();
+const here = Astro.url.pathname.replace(/\/+$/, '/') ;
+const isHome = here === u('/');
+const isConsulting = here === u('/consulting/');
 
 const org = {
   '@context': 'https://schema.org',
@@ -24,11 +30,21 @@ const org = {
   description: business.description,
   ...(business.phone ? { telephone: business.phone } : {}),
   ...(business.location ? { areaServed: business.location } : {}),
-  sameAs: [business.links.blog],
+  sameAs: [business.links.blog, business.links.linkedin],
+};
+const app = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'RnD Tax Workbench',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'macOS, Windows',
+  downloadUrl: business.links.software,
+  publisher: { '@type': 'Organization', name: business.name },
+  offers: { '@type': 'Offer', price: '29', priceCurrency: 'AUD' },
 };
 ---
 <!DOCTYPE html>
-<html lang="en-AU">
+<html lang="en-AU" data-consulting={u('/consulting/')}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -42,24 +58,29 @@ const org = {
 <meta property="og:url" content={canonical}>
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_AU">
-<meta name="theme-color" content="#5f1718">
+<meta property="og:image" content={ogImage}>
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content={theme === 'dark' ? '#000000' : '#5f1718'}>
 <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml">
 <link rel="alternate" type="application/atom+xml" title="R&D Innovate — Breaking R&D News" href={business.links.blogFeed}>
 <script type="application/ld+json" set:html={JSON.stringify(org)} />
+{isHome && <script type="application/ld+json" set:html={JSON.stringify(app)} />}
 <!-- Cloudflare Web Analytics -->
 <script is:inline type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "9ec6686bf5494ef595ae758329fb3e5c"}'></script>
 </head>
-<body>
+<body class={theme === 'dark' ? 'theme-dark' : undefined}>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site">
   <div class="wrap">
     <a class="logo" href={u('/')}>R&amp;D Innovate</a>
     <nav aria-label="Main">
-      <a href={u('/#about')}>About</a>
-      <a href={u('/#contact')}>Contact</a>
+      <a href={u('/')} aria-current={isHome ? 'page' : undefined}>Workbench</a>
+      <a href={u('/consulting/')} aria-current={isConsulting ? 'page' : undefined}>Consulting</a>
       <a href={business.links.blog}>Breaking R&amp;D News</a>
-      <a href={business.links.software}>Software</a>
       <a href={business.links.linkedin} rel="noopener">LinkedIn</a>
+      <a class="nav-pill" href={business.links.software}>Download</a>
     </nav>
   </div>
 </header>
@@ -68,9 +89,11 @@ const org = {
   <div class="wrap">
     <a class="logo" href={u('/')}>R&amp;D Innovate</a>
     <nav aria-label="Footer">
-      <a href={`mailto:${business.email}`}>{business.email}</a>
+      <a href={u('/')}>RnD Tax Workbench</a>
+      <a href={u('/consulting/')}>Consulting</a>
+      <a href={u('/consulting/#contact')}>Contact</a>
       <a href={business.links.blog}>Breaking R&amp;D News</a>
-      <a href={business.links.software}>Software</a>
+      <a href={`mailto:${business.email}`}>{business.email}</a>
       <a href={u('/privacy/')}>Privacy</a>
     </nav>
     <small>&copy; {year} {business.name}{business.abn && <> &middot; ABN {business.abn}</>}</small>

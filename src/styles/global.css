@@ -137,3 +137,37 @@ footer.site small{font-size:13px;opacity:.8;width:100%}
   form.contact .row{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* ── Oct 2026: nav for the Workbench launch home + Consulting page ── */
+header.site nav{align-items:center}
+header.site nav a[aria-current="page"]{box-shadow:inset 0 -2px 0 currentColor}
+header.site nav a.nav-pill{padding:8px 16px;border-radius:999px;background:#fff;color:var(--maroon);font-weight:700}
+header.site nav a.nav-pill:hover{background:#f1e9e9;color:var(--maroon)}
+body.theme-dark header.site{background:rgba(0,0,0,.82);-webkit-backdrop-filter:saturate(180%) blur(18px);backdrop-filter:saturate(180%) blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.08)}
+body.theme-dark header.site .wrap{min-height:64px}
+body.theme-dark .logo{font-size:26px}
+body.theme-dark header.site nav a{color:#d2d2d7;font-size:14px}
+body.theme-dark header.site nav a:hover{color:#fff}
+body.theme-dark header.site nav a.nav-pill{background:#3b82f6;color:#fff;font-weight:600}
+body.theme-dark header.site nav a.nav-pill:hover{background:#2563eb}
+body.theme-dark footer.site{background:#111;border-top:1px solid #222}
+
+/* consulting: services & projects */
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin:6px 0 14px}
+.svc{background:var(--panel);padding:20px 24px 22px;border-left:3px solid var(--maroon)}
+.svc h3{font-size:20px;line-height:1.35;font-weight:700;margin:0 0 6px}
+.svc p{margin:0;line-height:1.75}
+.svc-note{font-size:14px;color:#6b6b6b;margin:0 0 34px!important}
+.proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:6px}
+.proj{display:flex;flex-direction:column;border:1px solid var(--line);padding:22px 24px 22px;transition:border-color .15s,transform .15s}
+.proj:hover{border-color:var(--maroon);transform:translateY(-2px)}
+.proj-tag{font:700 12px/1.6 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--maroon)}
+.proj h3{font-size:22px;font-weight:700;line-height:1.3;margin:4px 0 8px}
+.proj p{margin:0 0 12px;line-height:1.75;flex:1}
+.proj-cta{color:var(--maroon);font-weight:700}
+@media (max-width:700px){
+  .svc-grid,.proj-grid{grid-template-columns:1fr}
+  body.theme-dark header.site .wrap{flex-direction:row;flex-wrap:wrap;justify-content:space-between}
+  header.site nav{gap:0 16px}
+}

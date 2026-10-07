@@ -17,13 +17,15 @@ const walk = (d) => fs.readdirSync(d, { withFileTypes: true })
   .flatMap((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]));
 const pages = walk(DIST).filter((f) => f.endsWith('.html'));
 const home = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
+const consultingFile = path.join(DIST, 'consulting', 'index.html');
+const consulting = fs.existsSync(consultingFile) ? fs.readFileSync(consultingFile, 'utf8') : '';
 
 // Blockers
-for (const p of ['index.html', 'privacy/index.html', '404.html', 'sitemap.xml', 'robots.txt']) {
+for (const p of ['index.html', 'consulting/index.html', 'privacy/index.html', '404.html', 'sitemap.xml', 'robots.txt']) {
   fs.existsSync(path.join(DIST, p)) ? ok.push(`${p} present`) : blockers.push(`${p} missing`);
 }
 field('email') ? ok.push(`contact email ${field('email')}`) : blockers.push('no contact email in business.ts');
-/id="contact"/.test(home) ? ok.push('contact section present') : blockers.push('contact section missing');
+/id="contact"/.test(consulting) ? ok.push('contact section present (consulting page)') : blockers.push('contact section missing on /consulting/');
 
 // Internal links resolve (base-path aware)
 const base = (process.env.SITE_BASE || '').replace(/\/$/, '');
@@ -47,7 +49,7 @@ else ok.push(prod ? 'production build is indexable' : 'preview build is noindex 
 // Nice-to-haves
 field('web3formsKey') ? ok.push('contact form enabled') : nice.push('no Web3Forms key: the page shows the email address instead of a form');
 field('abn') ? ok.push('ABN shown') : nice.push('no ABN in the footer');
-/Latest from the desk/.test(home) ? ok.push('latest blog articles on the homepage') : nice.push('latest-articles strip omitted (blog feed unreachable at build time)');
+/Breaking R&amp;D News|Latest from the desk/.test(home) ? ok.push('latest blog articles on the homepage') : nice.push('latest-articles strip omitted (blog feed unreachable at build time)');
 /og:image/.test(home) ? ok.push('og:image set') : nice.push('no og:image for link previews');
 
 for (const o of ok) console.log(`ok       ${o}`);
