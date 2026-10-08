@@ -6,6 +6,11 @@ import Base from '../layouts/Base.astro';
 import { business } from '../data/business';
 import { u } from '../lib/url';
 
+// Built only while business.consultingPage is true (see src/data/business.ts).
+export function getStaticPaths() {
+  return business.consultingPage ? [{ params: { page: 'consulting' } }] : [];
+}
+
 const services = [
   { h: 'Eligibility review',
     p: 'We look at your projects against the core and supporting R&D activity tests in Division 355 and tell you plainly what is likely to qualify, and why.' },

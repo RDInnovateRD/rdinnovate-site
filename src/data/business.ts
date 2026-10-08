@@ -22,6 +22,11 @@ export const business = {
   // page that claims registration while this is false.
   tpbRegistered: false,
 
+  // Consulting page (/consulting/: About, Services & Projects, Contact).
+  // false = hidden: the page is not built and every link to it disappears
+  // (menu, footer, home-page strip, sitemap). Set to true and redeploy to bring it back.
+  consultingPage: false,
+
   links: {
     blog: 'https://blog.rdinnovate.com',
     blogFeed: 'https://blog.rdinnovate.com/feed.xml',

@@ -12,10 +12,10 @@ import { u } from '../lib/url';
 </section>
 <section class="block panel">
   <div class="wrap" style="text-align:center;padding-top:30px">
-    <p>RnD Tax Workbench is on the home page, our consulting services are on the Consulting page, and our research news is on the blog.</p>
+    <p>RnD Tax Workbench is on the home page{business.consultingPage && ', our consulting services are on the Consulting page,'} and our research news is on the blog.</p>
     <p style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:24px">
       <a class="btn" href={u('/')}>Home</a>
-      <a class="btn" href={u('/consulting/')}>Consulting</a>
+      {business.consultingPage && <a class="btn" href={u('/consulting/')}>Consulting</a>}
       <a class="btn" href={business.links.blog}>Breaking R&amp;D News</a>
     </p>
   </div>

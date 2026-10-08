@@ -38,6 +38,7 @@ const plans = [
   document.documentElement.classList.add('js');
   (function () {
     var h = location.hash;
+    if (!document.documentElement.dataset.consulting) return;
     if (h === '#about' || h === '#contact' || h === '#services' || h === '#projects') {
       location.replace(document.documentElement.dataset.consulting + h);
     }
@@ -172,8 +173,8 @@ const plans = [
   </div>
 </section>
 
-<!-- ── 7. Consulting ───────────────────────────────────────── -->
-<section class="l-consult" aria-labelledby="consult-h">
+<!-- ── 7. Consulting (only while the Consulting page is on) ─── -->
+{business.consultingPage && <section class="l-consult" aria-labelledby="consult-h">
   <div class="l-wrap l-consult-in">
     <div>
       <p class="l-eyebrow">R&amp;D Innovate Consulting</p>
@@ -182,7 +183,7 @@ const plans = [
     </div>
     <a class="pill pill-light" href={u('/consulting/')}>Talk to us <span aria-hidden="true">&rsaquo;</span></a>
   </div>
-</section>
+</section>}
 
 <!-- ── 8. News ─────────────────────────────────────────────── -->
 {latest.length > 0 && (

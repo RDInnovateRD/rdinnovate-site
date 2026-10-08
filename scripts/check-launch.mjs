@@ -21,11 +21,13 @@ const consultingFile = path.join(DIST, 'consulting', 'index.html');
 const consulting = fs.existsSync(consultingFile) ? fs.readFileSync(consultingFile, 'utf8') : '';
 
 // Blockers
-for (const p of ['index.html', 'consulting/index.html', 'privacy/index.html', '404.html', 'sitemap.xml', 'robots.txt']) {
+const consultingOn = /consultingPage:\s*true/.test(biz);
+for (const p of ['index.html', ...(consultingOn ? ['consulting/index.html'] : []), 'privacy/index.html', '404.html', 'sitemap.xml', 'robots.txt']) {
   fs.existsSync(path.join(DIST, p)) ? ok.push(`${p} present`) : blockers.push(`${p} missing`);
 }
 field('email') ? ok.push(`contact email ${field('email')}`) : blockers.push('no contact email in business.ts');
-/id="contact"/.test(consulting) ? ok.push('contact section present (consulting page)') : blockers.push('contact section missing on /consulting/');
+if (consultingOn) /id="contact"/.test(consulting) ? ok.push('contact section present (consulting page)') : blockers.push('contact section missing on /consulting/');
+else /href="mailto:/.test(home) ? ok.push('contact email linked on the home page (consulting page hidden)') : blockers.push('no way to contact us on the home page');
 
 // Internal links resolve (base-path aware)
 const base = (process.env.SITE_BASE || '').replace(/\/$/, '');
