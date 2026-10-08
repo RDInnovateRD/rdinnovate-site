@@ -143,14 +143,14 @@ header.site nav{align-items:center}
 header.site nav a[aria-current="page"]{box-shadow:inset 0 -2px 0 currentColor}
 header.site nav a.nav-pill{padding:8px 16px;border-radius:999px;background:#fff;color:var(--maroon);font-weight:700}
 header.site nav a.nav-pill:hover{background:#f1e9e9;color:var(--maroon)}
-body.theme-dark header.site{background:var(--maroon);-webkit-backdrop-filter:saturate(180%) blur(18px);backdrop-filter:saturate(180%) blur(18px);
+header.site{background:var(--maroon);-webkit-backdrop-filter:saturate(180%) blur(18px);backdrop-filter:saturate(180%) blur(18px);
   border-bottom:1px solid rgba(255,255,255,.12)}
-body.theme-dark header.site .wrap{min-height:64px}
-body.theme-dark .logo{font-size:26px}
-body.theme-dark header.site nav a{color:#f1dedd;font-size:14px}
-body.theme-dark header.site nav a:hover{color:#fff}
-body.theme-dark header.site nav a.nav-pill{background:#fff;color:var(--maroon);font-weight:600}
-body.theme-dark header.site nav a.nav-pill:hover{background:#f6e8e6}
+header.site .wrap{min-height:64px}
+.logo{font-size:26px}
+header.site nav a{color:#f1dedd;font-size:14px}
+header.site nav a:hover{color:#fff}
+header.site nav a.nav-pill{background:#fff;color:var(--maroon);font-weight:600}
+header.site nav a.nav-pill:hover{background:#f6e8e6}
 body.theme-dark footer.site{background:#111;border-top:1px solid #222}
 
 /* consulting: services & projects */
