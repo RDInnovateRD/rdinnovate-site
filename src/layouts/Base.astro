@@ -37,7 +37,7 @@ const app = {
   '@type': 'SoftwareApplication',
   name: 'RnD Tax Workbench',
   applicationCategory: 'BusinessApplication',
-  operatingSystem: 'macOS, Windows',
+  operatingSystem: 'macOS, Windows, Linux',
   downloadUrl: business.links.software,
   publisher: { '@type': 'Organization', name: business.name },
   offers: { '@type': 'Offer', price: '29', priceCurrency: 'AUD' },
@@ -80,7 +80,7 @@ const app = {
       {business.consultingPage && <a href={u('/consulting/')} aria-current={isConsulting ? 'page' : undefined}>Consulting</a>}
       <a href={business.links.blog}>Breaking R&amp;D News</a>
       <a href={business.links.linkedin} rel="noopener">LinkedIn</a>
-      <a class="nav-pill" href={business.links.software}>Download</a>
+      <a class="nav-pill" href={u('/#get')}>Download</a>
     </nav>
   </div>
 </header>

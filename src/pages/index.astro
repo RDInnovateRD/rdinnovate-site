@@ -10,6 +10,7 @@ import { u } from '../lib/url';
 
 const latest = await latestArticles(3);
 const dl = business.links.software;
+const dlNz = business.links.softwareNz;
 const film = `${business.links.blog}/media/workbench-demo.mp4`;
 const filmPoster = u('/media/home/film-poster.jpg');
 const filmCaptions = `${business.links.blog}/media/workbench-demo.en.vtt`;
@@ -32,7 +33,7 @@ const plans = [
 ---
 <Base theme="dark"
       title="RnD Tax Workbench — R&D Tax Incentive claim software"
-      description="RnD Tax Workbench prepares Australian R&D Tax Incentive claims on your own machine. Import ledgers, payroll and timesheets, apply Division 355 and produce a schedule. Pay as you go.">
+      description="RnD Tax Workbench prepares Australian and New Zealand R&D Tax Incentive claims on your own machine. Import ledgers, payroll and timesheets, apply the rules and produce a schedule. Pay as you go.">
 <script is:inline>
   // Old one-page links (/#about, /#contact) now live on the Consulting page.
   document.documentElement.classList.add('js');
@@ -48,14 +49,15 @@ const plans = [
 <!-- ── 1. Hero ─────────────────────────────────────────────── -->
 <section class="l-hero" id="top">
   <div class="l-hero-copy">
-    <p class="l-eyebrow reveal-load">New from R&amp;D Innovate</p>
+    <p class="l-eyebrow reveal-load">Now for Australia and New Zealand</p>
     <h1 class="l-title reveal-load">RnD Tax Workbench</h1>
     <p class="l-tag reveal-load">The R&amp;D Tax Incentive claim, reimagined.</p>
     <div class="l-cta reveal-load">
-      <a class="pill" href={dl}>Download</a>
+      <a class="pill" href={dl}>Download for Australia</a>
+      <a class="pill" href={dlNz}>Download for New Zealand</a>
       <a class="pill pill-ghost" href="#film">Watch the film <span aria-hidden="true">&#9654;</span></a>
     </div>
-    <p class="l-avail reveal-load">For macOS and Windows. Pay as you go from A$29.</p>
+    <p class="l-avail reveal-load">For macOS, Windows and Linux. Pay as you go from A$29 or NZ$29.</p>
   </div>
   <div class="l-stage" aria-hidden="false">
     <div class="l-glow" aria-hidden="true"></div>
@@ -91,7 +93,7 @@ const plans = [
       <article class="tile t-review reveal">
         <span class="t-n">03</span>
         <h3>Built to stand up to review.</h3>
-        <p>Division 355 rules in every calculation, from feedstock and grants to associates and overseas work.</p>
+        <p>Division 355 in Australia and subpart LY in New Zealand, in every calculation, from feedstock and grants to associates and overseas work.</p>
       </article>
       <article class="tile t-data reveal">
         <span class="t-n">04</span>
@@ -144,7 +146,7 @@ const plans = [
         </div>
       ))}
     </div>
-    <p class="l-note reveal">Prices in Australian dollars. Credits are used by the AI-assisted steps, such as classification and narratives.</p>
+    <p class="l-note reveal">Prices in Australian dollars for the Australian edition. The New Zealand edition is priced in New Zealand dollars, from NZ$29. Credits are used by the AI-assisted steps, such as classification and narratives.</p>
   </div>
 </section>
 
@@ -164,12 +166,15 @@ const plans = [
 </section>
 
 <!-- ── 6. Get it ───────────────────────────────────────────── -->
-<section class="l-get" aria-labelledby="get-h">
+<section class="l-get" id="get" aria-labelledby="get-h">
   <div class="l-wrap">
     <img class="l-icon reveal" src={u('/media/rnd-tax-workbench-icon.png')} width="128" height="128" alt="" loading="lazy">
     <h2 id="get-h" class="l-h2 reveal">Get RnD Tax Workbench.</h2>
-    <p class="l-lede reveal">macOS (Apple silicon and Intel) and Windows 10 and 11.</p>
-    <div class="l-cta reveal"><a class="pill" href={dl}>Download</a></div>
+    <p class="l-lede reveal">Two editions, each for macOS (Apple silicon and Intel), Windows 10 and 11, and Linux.</p>
+    <div class="l-cta reveal">
+      <a class="pill" href={dl}>Australia</a>
+      <a class="pill" href={dlNz}>New Zealand</a>
+    </div>
   </div>
 </section>
 
