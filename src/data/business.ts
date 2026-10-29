@@ -30,8 +30,7 @@ export const business = {
   links: {
     blog: 'https://blog.rdinnovate.com',
     blogFeed: 'https://blog.rdinnovate.com/feed.xml',
-    software: 'https://blog.rdinnovate.com/workbench/',      // Australian edition
-    softwareNz: 'https://blog.rdinnovate.com/workbench-nz/', // New Zealand edition
+    software: 'https://blog.rdinnovate.com/workbench/', // download page: Australian and New Zealand editions
     linkedin: 'https://www.linkedin.com/company/rdinnovate/',
   },
 };
